@@ -7,8 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -81,15 +80,6 @@
   .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
   .nav-toggle span { width: 24px; height: 2px; background: var(--ink-2); border-radius: 2px; transition: .3s; }
 
-  /* ── BG BLOBS ─────────────────────────────────── */
-  .bg-blob {
-    position: fixed; border-radius: 50%; filter: blur(80px);
-    pointer-events: none; z-index: 0; opacity: .45;
-  }
-  .blob-1 { width: 600px; height: 600px; top: -200px; right: -100px; background: radial-gradient(circle, #bfdbfe, #dbeafe); }
-  .blob-2 { width: 500px; height: 500px; bottom: 10%; left: -150px; background: radial-gradient(circle, #e0f2fe, #bae6fd); }
-  .blob-3 { width: 400px; height: 400px; top: 40%; right: 5%; background: radial-gradient(circle, #eff6ff, #dbeafe); }
-
   /* ── HERO ─────────────────────────────────────── */
   #hero {
     min-height: 100vh; display: flex; align-items: center;
@@ -110,14 +100,13 @@
     backdrop-filter: blur(12px); border-radius: 100px;
     padding: 6px 16px 6px 8px; margin-bottom: 32px;
     font-size: 13px; font-weight: 500; color: var(--blue-4);
-    box-shadow: var(--shadow-sm); opacity: 0;
+    box-shadow: var(--shadow-sm);
   }
-  .badge-dot { width: 8px; height: 8px; background: var(--blue-3); border-radius: 50%; animation: pulse-dot 2s ease-in-out infinite; }
-  @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:.7} }
+  .badge-dot { width: 8px; height: 8px; background: var(--blue-3); border-radius: 50%; }
 
   .hero-heading {
     font-size: clamp(48px, 6vw, 82px); font-weight: 900; line-height: 1.0;
-    letter-spacing: -2px; color: var(--ink); margin-bottom: 24px; opacity: 0;
+    letter-spacing: -2px; color: var(--ink); margin-bottom: 24px;
   }
   .hero-heading span {
     background: linear-gradient(135deg, var(--blue-3) 0%, var(--blue-4) 60%, #6366f1 100%);
@@ -126,126 +115,38 @@
 
   .hero-sub {
     font-size: 18px; line-height: 1.65; color: var(--ink-3);
-    font-weight: 400; max-width: 440px; margin-bottom: 40px; opacity: 0;
+    font-weight: 400; max-width: 440px; margin-bottom: 40px;
   }
 
-  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; }
+  .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
 
   .btn-primary {
     background: linear-gradient(135deg, var(--blue-3), var(--blue-4));
     color: #fff; border: none; padding: 16px 36px;
     border-radius: 100px; font-size: 15px; font-weight: 600;
-    cursor: pointer; transition: transform .2s, box-shadow .2s;
+    cursor: pointer; transition: box-shadow .2s;
     text-decoration: none; display: inline-block;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(59,130,246,.4); }
+  .btn-primary:hover { box-shadow: 0 12px 32px rgba(59,130,246,.4); }
 
   .btn-secondary {
     background: var(--glass-bg); border: 1px solid var(--blue-2);
     color: var(--blue-4); padding: 16px 32px; border-radius: 100px;
     font-size: 15px; font-weight: 600; cursor: pointer;
-    backdrop-filter: blur(12px); transition: transform .2s, box-shadow .2s;
+    backdrop-filter: blur(12px); transition: box-shadow .2s;
     text-decoration: none; display: inline-block;
   }
-  .btn-secondary:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .btn-secondary:hover { box-shadow: var(--shadow-md); }
 
   /* ── BOTTLE SVG ───────────────────────────────── */
   .hero-visual { display: flex; align-items: center; justify-content: center; position: relative; z-index: 2; }
 
   .bottle-wrap {
-    position: relative; opacity: 0; transform: translateY(60px);
+    position: relative;
     filter: drop-shadow(0 40px 80px rgba(59,130,246,.25));
   }
 
   .bottle-svg { width: 230px; height: auto; }
-
-  .water-ripples {
-    position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
-    width: 300px; height: 80px; pointer-events: none;
-  }
-
-  .ripple {
-    position: absolute; border-radius: 50%;
-    border: 2px solid rgba(59,130,246,.25);
-    animation: ripple-out 3s ease-out infinite;
-  }
-  .ripple:nth-child(1) { width: 80px; height: 24px; left: 50%; bottom: 0; transform: translateX(-50%); animation-delay: 0s; }
-  .ripple:nth-child(2) { width: 160px; height: 40px; left: 50%; bottom: 0; transform: translateX(-50%); animation-delay: .6s; }
-  .ripple:nth-child(3) { width: 240px; height: 56px; left: 50%; bottom: 0; transform: translateX(-50%); animation-delay: 1.2s; }
-
-  @keyframes ripple-out {
-    0% { opacity: 0.6; transform: translateX(-50%) scale(0.6); }
-    100% { opacity: 0; transform: translateX(-50%) scale(1.1); }
-  }
-
-  /* ── SCROLL STORY ─────────────────────────────── */
-  #story { position: relative; }
-
-  .story-pin {
-    height: 700vh;
-    background: linear-gradient(180deg, #f0f7ff 0%, #e8f4fd 30%, #dbeafe 70%, #eff6ff 100%);
-  }
-
-  .story-sticky {
-    position: sticky; top: 0; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-
-  .story-bottle { position: absolute; z-index: 10; right: 18%; }
-  .story-bottle svg { width: 200px; height: auto; }
-
-  .story-text {
-    position: absolute; text-align: left; z-index: 5;
-    max-width: 480px; padding: 0 40px;
-    left: 8%; top: 50%; transform: translateY(-50%);
-  }
-
-  .story-headline {
-    font-size: clamp(36px, 5vw, 64px); font-weight: 900;
-    letter-spacing: -1.5px; line-height: 1.05;
-    background: linear-gradient(135deg, var(--blue-4), var(--blue-3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    margin-bottom: 16px; text-align: left;
-  }
-
-  .story-tagline {
-    font-size: clamp(15px, 2vw, 20px); color: var(--ink-3); font-weight: 400; line-height: 1.5; text-align: left;
-  }
-
-  .story-reveal-text {
-    position: absolute; text-align: center; z-index: 20;
-    opacity: 0; max-width: 680px; padding: 0 48px;
-    left: 50%; transform: translateX(-50%);
-  }
-
-  .story-big { font-size: clamp(20px, 3vw, 32px); font-weight: 700; color: var(--ink); line-height: 1.4; }
-
-  .label-glow {
-    font-size: 18px; font-weight: 800; letter-spacing: 2px;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fff, #bfdbfe, #3b82f6);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    text-shadow: none;
-    filter: drop-shadow(0 0 12px rgba(59,130,246,.8));
-  }
-
-  .water-particles {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 8;
-  }
-
-  .particle {
-    position: absolute; border-radius: 50%;
-    background: radial-gradient(circle, rgba(147,197,253,.9), rgba(59,130,246,.4));
-    animation: particle-float 4s ease-in-out infinite;
-    opacity: 0;
-  }
-
-  @keyframes particle-float {
-    0% { transform: translateY(0) scale(1); opacity: 0; }
-    20% { opacity: .8; }
-    100% { transform: translateY(-200px) scale(.2); opacity: 0; }
-  }
 
   /* ── SECTION SHARED ───────────────────────────── */
   section { position: relative; z-index: 1; }
@@ -281,7 +182,6 @@
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-radius: var(--radius); padding: 32px 24px;
     box-shadow: var(--shadow-sm); transition: transform .3s, box-shadow .3s;
-    opacity: 0; transform: translateY(40px);
   }
   .step-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
 
@@ -316,7 +216,6 @@
     border-radius: var(--radius); padding: 40px 32px;
     box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
     transition: transform .3s, box-shadow .3s; cursor: default;
-    opacity: 0; transform: translateY(40px);
   }
 
   .why-card::before {
@@ -361,7 +260,6 @@
     border-radius: var(--radius); padding: 48px 32px 36px;
     text-align: center; box-shadow: var(--shadow-md);
     transition: transform .4s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-    opacity: 0; transform: translateY(50px);
   }
   .showcase-card:hover { transform: translateY(-10px) rotate(1deg); box-shadow: var(--shadow-lg); }
 
@@ -385,7 +283,7 @@
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     border-radius: var(--radius); padding: 40px 28px;
     box-shadow: var(--shadow-sm); transition: transform .3s, box-shadow .3s;
-    opacity: 0; transform: translateY(40px); position: relative;
+    position: relative;
   }
   .price-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
 
@@ -477,7 +375,6 @@
 
   .faq-item {
     border-bottom: 1px solid rgba(148,163,184,.15); overflow: hidden;
-    opacity: 0; transform: translateX(-20px);
   }
 
   .faq-q {
@@ -584,7 +481,6 @@
   .footer-copy { font-size: 13px; color: rgba(255,255,255,.35); }
 
   /* ── RESPONSIVE ───────────────────────────────── */
-  /* ── TABLET ───────────────────────────────────── */
   @media (max-width: 1024px) {
     nav { padding: 16px 32px; }
     .section-inner { padding: 0 32px; }
@@ -594,131 +490,74 @@
     .why-grid { grid-template-columns: repeat(2, 1fr); }
     .pricing-grid { grid-template-columns: repeat(2, 1fr); }
     .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-    .story-text { left: 5%; max-width: 380px; }
-    .story-bottle { right: 8%; }
+    #story > div { grid-template-columns: 1fr; gap: 40px; text-align: center; }
   }
 
-  /* ── MOBILE ───────────────────────────────────── */
   @media (max-width: 768px) {
-
-    /* NAV */
-    nav { padding: 14px 20px; position: fixed; }
-    .nav-links { display: none; }
-    .nav-cta { display: none; }
+    nav { padding: 14px 20px; }
+    .nav-links, .nav-cta { display: none; }
     .nav-toggle { display: flex; z-index: 1001; }
     nav.menu-open .nav-links {
       display: flex; flex-direction: column;
       position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
       background: rgba(255,255,255,0.98); backdrop-filter: blur(24px);
-      padding: 32px 24px; gap: 8px; z-index: 1000;
-      border-top: 1px solid var(--blue-1); align-items: flex-start;
+      padding: 32px 24px; gap: 0; z-index: 1000;
+      border-top: 1px solid var(--blue-1);
     }
-    nav.menu-open .nav-links a { font-size: 20px; font-weight: 600; color: var(--ink); padding: 12px 0; border-bottom: 1px solid var(--blue-1); width: 100%; }
+    nav.menu-open .nav-links a { font-size: 20px; font-weight: 600; color: var(--ink); padding: 14px 0; border-bottom: 1px solid var(--blue-1); width: 100%; display: block; }
     nav.menu-open .nav-cta { display: inline-block; margin-top: 20px; font-size: 16px; padding: 14px 32px; }
 
-    /* HERO */
     #hero { padding: 80px 20px 56px; min-height: auto; }
     .hero-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
-    .hero-badge { font-size: 12px; }
-    .hero-heading { font-size: clamp(36px, 9vw, 52px); letter-spacing: -1px; }
     .hero-sub { font-size: 16px; max-width: 100%; margin: 0 auto 32px; }
-    .hero-actions { justify-content: center; gap: 12px; }
-    .btn-primary, .btn-secondary { padding: 14px 28px; font-size: 14px; }
+    .hero-actions { justify-content: center; }
     .bottle-svg { width: 160px; }
-    .water-ripples { width: 200px; }
 
-    /* STORY — simplified on mobile, no complex GSAP positioning */
-    .story-pin { height: auto; background: linear-gradient(180deg, #f0f7ff, #dbeafe); }
-    .story-sticky {
-      position: relative; height: auto; min-height: auto;
-      flex-direction: column; padding: 60px 24px;
-      gap: 40px; overflow: visible;
-    }
-    .story-text {
-      position: relative; left: auto; top: auto; right: auto;
-      transform: none; text-align: center; padding: 0;
-      max-width: 100%; opacity: 1 !important;
-    }
-    .story-headline { font-size: clamp(28px, 8vw, 40px); text-align: center; }
-    .story-tagline { text-align: center; font-size: 16px; }
-    .story-bottle {
-      position: relative; right: auto; left: auto; top: auto; bottom: auto;
-      transform: none; display: flex; justify-content: center;
-      opacity: 1 !important; x: 0 !important;
-    }
-    .story-bottle svg { width: 140px; }
-    .story-reveal-text {
-      position: relative; left: auto; transform: none;
-      opacity: 1 !important; padding: 0; text-align: center;
-    }
-    .story-big { font-size: 18px; }
-    .water-particles { display: none; }
+    #story > div { padding: 0 20px; grid-template-columns: 1fr; gap: 40px; text-align: center; }
 
-    /* SECTIONS */
     .section-inner { padding: 0 20px; }
-    #how, #why, #showcase, #pricing, #faq, #contact { padding: 72px 0; }
+    #how, #why, #showcase, #pricing, #faq, #contact { padding: 64px 0; }
     .section-title { font-size: clamp(26px, 7vw, 36px); }
-    .section-sub { font-size: 15px; margin-bottom: 40px; }
+    .section-sub { font-size: 15px; margin-bottom: 36px; }
 
-    /* GRIDS */
-    .steps-grid { grid-template-columns: 1fr; gap: 16px; }
-    .step-card { padding: 24px 20px; opacity: 1 !important; transform: none !important; }
-    .why-grid { grid-template-columns: 1fr; gap: 16px; }
-    .why-card { padding: 28px 24px; opacity: 1 !important; transform: none !important; }
-    .showcase-grid { grid-template-columns: 1fr; gap: 24px; }
-    .showcase-card { opacity: 1 !important; transform: none !important; }
-
-    /* PRICING */
-    .pricing-grid { grid-template-columns: 1fr; gap: 20px; }
-    .price-card { opacity: 1 !important; transform: none !important; }
-    .price-card.featured { transform: none !important; }
+    .steps-grid { grid-template-columns: 1fr; gap: 14px; }
+    .step-card { padding: 22px 18px; }
+    .why-grid { grid-template-columns: 1fr; gap: 14px; }
+    .why-card { padding: 26px 22px; }
+    .showcase-grid { grid-template-columns: 1fr; gap: 20px; }
+    .pricing-grid { grid-template-columns: 1fr; gap: 16px; }
+    .price-card.featured { transform: none; }
     .price-amount { font-size: 36px; }
 
-    /* STATS */
     #stats { padding: 60px 0; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 28px; }
     .stat-num { font-size: clamp(36px, 10vw, 52px); }
 
-    /* FAQ */
     .faq-list { max-width: 100%; }
-    .faq-item { opacity: 1 !important; transform: none !important; }
     .faq-q-text { font-size: 15px; }
 
-    /* CONTACT */
     .contact-grid { grid-template-columns: 1fr; gap: 36px; }
     .contact-form { padding: 28px 20px; }
-    .form-row { grid-template-columns: 1fr; gap: 0; }
-    .form-input, .form-textarea { font-size: 16px; } /* prevent iOS zoom */
+    .form-row { grid-template-columns: 1fr; }
+    .form-input, .form-textarea { font-size: 16px; }
 
-    /* FOOTER */
     footer { padding: 48px 20px 28px; }
     .footer-top { flex-direction: column; gap: 32px; }
-    .footer-links { gap: 28px; flex-direction: column; }
+    .footer-links { flex-direction: column; gap: 28px; }
     .footer-bottom { flex-direction: column; text-align: center; gap: 8px; }
     .footer-brand .logo { font-size: 22px; }
   }
 
-  /* ── SMALL MOBILE ─────────────────────────────── */
   @media (max-width: 400px) {
     .hero-heading { font-size: 32px; }
-    .btn-primary, .btn-secondary { width: 100%; text-align: center; }
     .hero-actions { flex-direction: column; }
-    .stats-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
-    .stat-num { font-size: 36px; }
-    .pricing-grid { gap: 16px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+    .stats-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Background blobs -->
-<div class="bg-blob blob-1"></div>
-<div class="bg-blob blob-2"></div>
-<div class="bg-blob blob-3"></div>
 
 <!-- NAV -->
 <nav id="navbar">
@@ -837,94 +676,44 @@
           <path d="M55 276 Q100 282 145 276" stroke="rgba(147,197,253,0.25)" stroke-width="1" fill="none"/>
           <path d="M55 290 Q100 296 145 290" stroke="rgba(147,197,253,0.2)" stroke-width="1" fill="none"/>
         </svg>
-        <!-- Ripples -->
-        <div class="water-ripples">
-          <div class="ripple"></div>
-          <div class="ripple"></div>
-          <div class="ripple"></div>
-        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SCROLL STORY -->
-<section id="story">
-  <div class="story-pin">
-    <div class="story-sticky">
-      <!-- Initial text -->
-      <div class="story-text" id="storyText">
-        <div class="story-headline">BRANDSIP</div>
-        <div class="story-tagline">Turning Every Sip Into Brand Visibility</div>
-      </div>
-
-      <!-- Bottle (story) -->
-      <div class="story-bottle" id="storyBottle">
-        <svg id="storyBottleSVG" viewBox="0 0 200 370" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:190px;height:auto;">
-          <defs>
-            <linearGradient id="sCapGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#1d4ed8"/>
-              <stop offset="50%" stop-color="#3b82f6"/>
-              <stop offset="100%" stop-color="#1e40af"/>
-            </linearGradient>
-            <linearGradient id="sBodyGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="rgba(219,234,254,0.5)"/>
-              <stop offset="30%" stop-color="rgba(239,246,255,0.92)"/>
-              <stop offset="70%" stop-color="rgba(239,246,255,0.92)"/>
-              <stop offset="100%" stop-color="rgba(191,219,254,0.45)"/>
-            </linearGradient>
-            <linearGradient id="sWaterGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(147,197,253,0.55)"/>
-              <stop offset="100%" stop-color="rgba(59,130,246,0.75)"/>
-            </linearGradient>
-            <linearGradient id="sLabelGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#dbeafe"/>
-              <stop offset="50%" stop-color="#eff6ff"/>
-              <stop offset="100%" stop-color="#dbeafe"/>
-            </linearGradient>
-            <clipPath id="sBottleClip">
-              <path d="M68 90 Q60 100 58 120 L52 300 Q52 330 100 330 Q148 330 148 300 L142 120 Q140 100 132 90 Z"/>
-            </clipPath>
-          </defs>
-          <!-- Cap group (animatable) -->
-          <g id="storyCap">
-            <rect x="76" y="36" width="48" height="10" rx="5" fill="url(#sCapGrad)" opacity=".9"/>
-            <rect x="74" y="44" width="52" height="24" rx="8" fill="url(#sCapGrad)"/>
-            <rect x="76" y="46" width="12" height="20" rx="2" fill="rgba(255,255,255,0.2)"/>
-          </g>
-          <path d="M82 68 L78 90 L122 90 L118 68 Z" fill="rgba(219,234,254,0.8)" stroke="rgba(147,197,253,0.4)" stroke-width="1"/>
-          <path d="M68 90 Q60 100 58 120 L52 300 Q52 330 100 330 Q148 330 148 300 L142 120 Q140 100 132 90 Z"
-                fill="url(#sBodyGrad)" stroke="rgba(147,197,253,0.5)" stroke-width="1.5"/>
-          <rect x="52" y="185" width="96" height="145" clip-path="url(#sBottleClip)" fill="url(#sWaterGrad)"/>
-          <path d="M52 185 Q76 174 100 183 Q124 192 148 181 L148 187 Q124 198 100 189 Q76 180 52 191 Z"
-                clip-path="url(#sBottleClip)" fill="rgba(147,197,253,0.7)">
-            <animate attributeName="d"
-              dur="2.5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"
-              values="M52 185 Q76 174 100 183 Q124 192 148 181 L148 187 Q124 198 100 189 Q76 180 52 191 Z;
-                      M52 183 Q76 192 100 181 Q124 170 148 185 L148 189 Q124 176 100 187 Q76 198 52 189 Z;
-                      M52 185 Q76 174 100 183 Q124 192 148 181 L148 187 Q124 198 100 189 Q76 180 52 191 Z"/>
-          </path>
-          <!-- Label with "YOUR BRAND HERE" -->
-          <rect x="58" y="118" width="84" height="82" rx="6" fill="url(#sLabelGrad)" stroke="rgba(147,197,253,0.5)" stroke-width="1"/>
-          <g id="labelReveal" opacity="0">
-            <text x="100" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="800" fill="#1d4ed8" letter-spacing="1">YOUR BRAND</text>
-            <text x="100" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="800" fill="#3b82f6" letter-spacing="1">HERE</text>
-            <line x1="68" y1="176" x2="132" y2="176" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
-            <text x="100" y="186" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="#3b82f6" letter-spacing="2">BRANDSIP</text>
-          </g>
-          <path d="M62 105 Q65 110 65 240 Q63 248 60 240 L60 108 Z" fill="rgba(255,255,255,0.5)" opacity=".7"/>
-          <path d="M68 92 L70 300" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
-          <ellipse cx="100" cy="326" rx="46" ry="8" fill="rgba(147,197,253,0.3)"/>
-        </svg>
-      </div>
-
-      <!-- Water particles -->
-      <div class="water-particles" id="waterParticles"></div>
-
-      <!-- Reveal text -->
-      <div class="story-reveal-text" id="storyRevealText">
-        <p class="story-big">Your business logo printed on bottles distributed across events, colleges, and public gatherings.</p>
-      </div>
+<!-- BRAND STATEMENT -->
+<section id="story" style="padding:100px 0; background:linear-gradient(160deg,#dbeafe,#eff6ff);">
+  <div style="max-width:1200px;margin:0 auto;padding:0 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
+    <div>
+      <div class="section-label">Our Mission</div>
+      <h2 class="section-title" style="margin-bottom:24px;">Your Logo. <span style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Real Hands.</span> Real Impact.</h2>
+      <p style="font-size:18px;color:var(--ink-3);line-height:1.75;margin-bottom:32px;">Your business logo printed on bottles distributed across events, colleges, and public gatherings — turning every sip into a brand impression that lasts.</p>
+      <a href="#pricing" class="btn-primary">Start a Campaign</a>
+    </div>
+    <div style="display:flex;justify-content:center;">
+      <svg viewBox="0 0 200 370" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:200px;height:auto;filter:drop-shadow(0 30px 60px rgba(59,130,246,.25));">
+        <defs>
+          <linearGradient id="sCapGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1d4ed8"/><stop offset="50%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#1e40af"/></linearGradient>
+          <linearGradient id="sBodyGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="rgba(219,234,254,0.5)"/><stop offset="30%" stop-color="rgba(239,246,255,0.92)"/><stop offset="70%" stop-color="rgba(239,246,255,0.92)"/><stop offset="100%" stop-color="rgba(191,219,254,0.45)"/></linearGradient>
+          <linearGradient id="sWaterGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(147,197,253,0.55)"/><stop offset="100%" stop-color="rgba(59,130,246,0.75)"/></linearGradient>
+          <linearGradient id="sLabelGrad" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#dbeafe"/><stop offset="50%" stop-color="#eff6ff"/><stop offset="100%" stop-color="#dbeafe"/></linearGradient>
+          <clipPath id="sBottleClip"><path d="M68 90 Q60 100 58 120 L52 300 Q52 330 100 330 Q148 330 148 300 L142 120 Q140 100 132 90 Z"/></clipPath>
+        </defs>
+        <rect x="76" y="36" width="48" height="10" rx="5" fill="url(#sCapGrad)" opacity=".9"/>
+        <rect x="74" y="44" width="52" height="24" rx="8" fill="url(#sCapGrad)"/>
+        <rect x="76" y="46" width="12" height="20" rx="2" fill="rgba(255,255,255,0.2)"/>
+        <path d="M82 68 L78 90 L122 90 L118 68 Z" fill="rgba(219,234,254,0.8)" stroke="rgba(147,197,253,0.4)" stroke-width="1"/>
+        <path d="M68 90 Q60 100 58 120 L52 300 Q52 330 100 330 Q148 330 148 300 L142 120 Q140 100 132 90 Z" fill="url(#sBodyGrad)" stroke="rgba(147,197,253,0.5)" stroke-width="1.5"/>
+        <rect x="52" y="185" width="96" height="145" clip-path="url(#sBottleClip)" fill="url(#sWaterGrad)"/>
+        <rect x="58" y="118" width="84" height="82" rx="6" fill="url(#sLabelGrad)" stroke="rgba(147,197,253,0.5)" stroke-width="1"/>
+        <text x="100" y="155" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="800" fill="#1d4ed8" letter-spacing="1">YOUR BRAND</text>
+        <text x="100" y="168" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" font-weight="800" fill="#3b82f6" letter-spacing="1">HERE</text>
+        <line x1="68" y1="176" x2="132" y2="176" stroke="rgba(59,130,246,0.3)" stroke-width="1"/>
+        <text x="100" y="186" text-anchor="middle" font-family="Inter,sans-serif" font-size="6" fill="#3b82f6" letter-spacing="2">BRANDSIP</text>
+        <path d="M62 105 Q65 110 65 240 Q63 248 60 240 L60 108 Z" fill="rgba(255,255,255,0.5)" opacity=".7"/>
+        <path d="M68 92 L70 300" stroke="rgba(255,255,255,0.45)" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="100" cy="326" rx="46" ry="8" fill="rgba(147,197,253,0.3)"/>
+      </svg>
     </div>
   </div>
 </section>
@@ -1384,164 +1173,19 @@
 </footer>
 
 <script>
-gsap.registerPlugin(ScrollTrigger);
-
-// ── NAV ────────────────────────────────────────────
+// ── NAV TOGGLE ─────────────────────────────────────
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navbar').classList.toggle('menu-open');
+});
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('navbar').classList.remove('menu-open'));
+});
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
 });
 
-document.getElementById('navToggle').addEventListener('click', () => {
-  document.getElementById('navbar').classList.toggle('menu-open');
-});
-
-// ── HERO ENTRANCE ──────────────────────────────────
-const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-heroTl
-  .to('#heroBadge',   { opacity: 1, y: 0, duration: .7, delay: .3 })
-  .to('#heroHeading', { opacity: 1, y: 0, duration: .85 }, '-=.3')
-  .to('#heroSub',     { opacity: 1, y: 0, duration: .75 }, '-=.5')
-  .to('#heroActions', { opacity: 1, y: 0, duration: .65 }, '-=.4')
-  .to('#heroBottle',  { opacity: 1, y: 0, duration: 1.1, ease: 'power2.out' }, '-=.8');
-
-// Floating bottle
-gsap.to('#heroBottle', {
-  y: -14, duration: 3.5, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 1.5
-});
-
-// ── SCROLL STORY ───────────────────────────────────
-// Build water particles
-const particlesEl = document.getElementById('waterParticles');
-for (let i = 0; i < 22; i++) {
-  const p = document.createElement('div');
-  p.className = 'particle';
-  const size = Math.random() * 14 + 6;
-  p.style.cssText = `
-    width:${size}px; height:${size}px;
-    left:${20 + Math.random() * 60}%;
-    bottom:${30 + Math.random() * 30}%;
-    animation-delay:${Math.random() * 3}s;
-    animation-duration:${2.5 + Math.random() * 2.5}s;
-  `;
-  particlesEl.appendChild(p);
-}
-
-// Story timeline
-const story = document.getElementById('story');
-const storyBottle = document.getElementById('storyBottle');
-
-// Story: bottle starts at right (already positioned via CSS right:18%)
-// We animate it to center using x offset from its current position
-const isMobile = window.innerWidth <= 768;
-
-if (!isMobile) {
-  gsap.set('#storyBottle', { x: 0, scale: 0.9 });
-  gsap.set('#storyRevealText', { opacity: 0, y: 20 });
-
-  const storyTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '#story',
-      start: 'top top',
-      end: 'bottom bottom',
-      scrub: 1.4,
-      pin: false,
-    }
-  });
-
-  storyTl
-    .to('#storyText', { opacity: 0, x: -60, duration: 1.2, ease: 'power2.in' }, 0)
-    .to('#storyBottle', { right: '50%', xPercent: 50, duration: 2.5, ease: 'power2.inOut' }, 1)
-    .to('#storyBottle', { scale: 1.3, duration: 2, ease: 'power2.inOut' }, 2.5)
-    .to('#storyCap', { y: -32, duration: 1.5, ease: 'power1.inOut' }, 4)
-    .to('.particle', { opacity: 1, stagger: .04, duration: .6 }, 5)
-    .to('#labelReveal', { opacity: 1, duration: 1 }, 5.5)
-    .to('#storyBottle', { opacity: 0.1, y: -30, duration: 1 }, 6.5)
-    .to('#storyRevealText', { opacity: 1, y: 0, duration: 1.4, ease: 'power3.out' }, 6.5);
-} else {
-  // Mobile: show everything statically, no scroll story
-  gsap.set('#storyText', { opacity: 1, x: 0 });
-  gsap.set('#storyBottle', { opacity: 1, x: 0, scale: 1 });
-  gsap.set('#storyRevealText', { opacity: 1, y: 0 });
-  gsap.set('#labelReveal', { opacity: 1 });
-  // shrink story pin height on mobile
-  const storyPin = document.querySelector('.story-pin');
-  if (storyPin) storyPin.style.height = 'auto';
-}
-
-// ── HOW IT WORKS (stagger) ─────────────────────────
-if (!isMobile) {
-  gsap.utils.toArray('.step-card').forEach((card, i) => {
-    gsap.to(card, {
-      opacity: 1, y: 0, duration: .65, ease: 'power2.out',
-      scrollTrigger: { trigger: card, start: 'top 85%' },
-      delay: i * .1
-    });
-  });
-
-  // ── WHY CARDS ──────────────────────────────────────
-  gsap.utils.toArray('.why-card').forEach((card, i) => {
-    gsap.to(card, {
-      opacity: 1, y: 0, duration: .7, ease: 'power2.out',
-      scrollTrigger: { trigger: card, start: 'top 87%' },
-      delay: i * .12
-    });
-  });
-
-  // ── SHOWCASE ───────────────────────────────────────
-  gsap.utils.toArray('.showcase-card').forEach((card, i) => {
-    gsap.to(card, {
-      opacity: 1, y: 0, duration: .75, ease: 'power2.out',
-      scrollTrigger: { trigger: card, start: 'top 87%' },
-      delay: i * .14
-    });
-  });
-
-  // ── PRICING ────────────────────────────────────────
-  gsap.utils.toArray('.price-card').forEach((card, i) => {
-    gsap.to(card, {
-      opacity: 1, y: 0, duration: .65, ease: 'power2.out',
-      scrollTrigger: { trigger: card, start: 'top 87%' },
-      delay: i * .1
-    });
-  });
-}
-
-// ── STATS COUNTER ──────────────────────────────────
-document.querySelectorAll('.stat-num').forEach(el => {
-  const target = +el.dataset.target;
-  const suffix = el.dataset.suffix || '';
-  const isMillions = suffix === 'M+';
-
-  ScrollTrigger.create({
-    trigger: el,
-    start: 'top 85%',
-    once: true,
-    onEnter() {
-      gsap.to({ val: 0 }, {
-        val: isMillions ? 1 : target,
-        duration: 2.2,
-        ease: 'power2.out',
-        onUpdate() {
-          const v = this.targets()[0].val;
-          el.textContent = (isMillions
-            ? v.toFixed(1)
-            : Math.round(v).toLocaleString('en-IN')) + suffix;
-        }
-      });
-    }
-  });
-});
-
 // ── FAQ ACCORDION ──────────────────────────────────
-document.querySelectorAll('.faq-item').forEach((item, i) => {
-  if (!isMobile) {
-    gsap.to(item, {
-      opacity: 1, x: 0, duration: .6, ease: 'power2.out',
-      scrollTrigger: { trigger: item, start: 'top 88%' },
-      delay: i * .08
-    });
-  }
-
+document.querySelectorAll('.faq-item').forEach(item => {
   item.querySelector('.faq-q').addEventListener('click', () => {
     const wasOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(o => o.classList.remove('open'));
@@ -1549,24 +1193,19 @@ document.querySelectorAll('.faq-item').forEach((item, i) => {
   });
 });
 
-// ── SECTION TITLE REVEALS ──────────────────────────
-gsap.utils.toArray('.section-title, .section-sub, .section-label').forEach(el => {
-  gsap.from(el, {
-    opacity: 0, y: 28, duration: .75, ease: 'power2.out',
-    scrollTrigger: { trigger: el, start: 'top 90%' }
-  });
+// ── STATS (plain display, no animation) ────────────
+document.querySelectorAll('.stat-num').forEach(el => {
+  const target = +el.dataset.target;
+  const suffix = el.dataset.suffix || '';
+  el.textContent = (el.dataset.suffix === 'M+' ? '1' : target.toLocaleString('en-IN')) + suffix;
 });
 
 // ── FORM SUBMIT ────────────────────────────────────
 document.querySelector('.form-submit').addEventListener('click', function () {
-  this.textContent = 'Message Sent! We\'ll be in touch ✓';
-  this.style.background = 'linear-gradient(135deg, #059669, #047857)';
-  setTimeout(() => {
-    this.textContent = 'Send Campaign Request →';
-    this.style.background = '';
-  }, 3500);
+  this.textContent = "Message Sent! We'll be in touch ✓";
+  this.style.background = 'linear-gradient(135deg,#059669,#047857)';
+  setTimeout(() => { this.textContent = 'Send Campaign Request →'; this.style.background = ''; }, 3500);
 });
-
 </script>
 </body>
 </html>
